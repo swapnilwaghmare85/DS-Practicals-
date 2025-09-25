@@ -1,0 +1,25 @@
+#include <iostream> 
+using namespace std; 
+int main(){ 
+int reqID, hashVal, totalRequests, totalServers; 
+char opt; 
+cout<<"Enter total number of servers: "; 
+cin>>totalServers; 
+cout<<"Enter total number of requests: "; 
+cin>>totalRequests; 
+for(int i=0; i<totalRequests; i++){ 
+cout<<"Enter Request ID: "; 
+cin>>reqID; 
+hashVal = reqID % totalServers; 
+cout<<"Request is assigned to Server #"<<hashVal<<endl; 
+} 
+cout<<"\nDo you want to send more requests? (Y/N) "; 
+cin>>opt; 
+if(opt=='Y' || opt=='y'){ 
+main(); 
+} 
+else{ 
+cout<<"Closing Application!!"; 
+} 
+return 0; 
+}
