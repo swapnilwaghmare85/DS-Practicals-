@@ -1,0 +1,62 @@
+#include<iostream> 
+using namespace std; 
+int main(){ 
+int totalScores; 
+int tempVal=0; 
+int playerA[10]; 
+int playerB[10]; 
+cout<<"Enter total number of scores: "; 
+cin>>totalScores; 
+cout<<"Enter scores for Player A:\n"; 
+for(int i=0; i<totalScores; i++){ 
+cout<<"Score "<<i+1<<": "; 
+cin>>playerA[i]; 
+} 
+cout<<"Enter scores for Player B:\n"; 
+for(int i=0; i<totalScores; i++){ 
+cout<<"Score "<<i+1<<": "; 
+cin>>playerB[i]; 
+} 
+cout<<"Entered scores for both players are:\n"; 
+cout<<"Player A:\n"; 
+for(int i=0; i<totalScores; i++){ 
+cout<<playerA[i]<<"  "; 
+} 
+cout<<endl; 
+cout<<"Player B:\n"; 
+for(int i=0; i<totalScores; i++){ 
+cout<<playerB[i]<<"  "; 
+} 
+cout<<endl; 
+cout<<"Sorting scores for both players...\n"; 
+ for(int i=totalScores; i>0; i--){ 
+ for(int j=0; j<i-1; j++){ 
+ if(playerA[j]<playerA[j+1]){ 
+ tempVal=playerA[j]; 
+ playerA[j]=playerA[j+1]; 
+ playerA[j+1]=tempVal; 
+ } 
+ if(playerB[j]<playerB[j+1]){ 
+ tempVal=playerB[j]; 
+ playerB[j]=playerB[j+1]; 
+ playerB[j+1]=tempVal; 
+ } 
+ } 
+ } 
+ cout<<"\nPlayer A: "; 
+ for(int k=0; k<totalScores; k++){ 
+ cout<<playerA[k]<<"  "; 
+ } 
+ cout<<"\nPlayer B: "; 
+ for(int k=0; k<totalScores; k++){ 
+ cout<<playerB[k]<<"  "; 
+ } 
+ cout<<endl; 
+ if(playerA[0]>playerB[0]){ 
+ cout<<"Player A wins!!"; 
+ } 
+ else{ 
+ cout<<"Player B wins!!"; 
+ } 
+ return 0; 
+ }
