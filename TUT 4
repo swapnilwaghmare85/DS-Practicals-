@@ -1,0 +1,68 @@
+ #include <iostream> 
+ #include <string> 
+ using namespace std; 
+ class Node { 
+ private: 
+ string tasknm; 
+ int etime; 
+ public: 
+ int prio; 
+ Node *nxtptr; 
+ void show(); 
+ Node(string nm,int pr,int et); 
+ }; 
+ Node::Node(string nm,int pr,int et){ 
+ tasknm=nm; 
+ prio=pr; 
+ etime=et; 
+ nxtptr=NULL; 
+ }; 
+ void Node::show(){ 
+ cout<<"\n\nTask Name:"<<tasknm<<endl; 
+ cout<<"Task Priority:"<<prio<<endl; 
+ cout<<"Exec Time:"<<etime<<endl; 
+ } 
+ int main(){ 
+ Node *first=NULL; 
+ Node *tmp=NULL; 
+ Node *prev=NULL; 
+ Node *cur=NULL; 
+ string tnm; 
+ int cnt,etm,p; 
+ cout<<"Enter total tasks:"; 
+ cin>>cnt; 
+ for(int i=0;i<cnt;i++){ 
+ cout<<"Enter task title:"; 
+ cin>>tnm; 
+ cout<<"Enter task priority (1-10):"; 
+ cin>>p; 
+ cout<<"Enter exec duration:"; 
+ cin>>etm; 
+ if(first==NULL){ 
+ first=new Node(tnm,p,etm); 
+ } 
+ else{ 
+ tmp=new Node(tnm,p,etm); 
+ prev=first; 
+ cur=first->nxtptr; 
+ if(first->prio<tmp->prio){ 
+ tmp->nxtptr=first; 
+ first=tmp; 
+ } 
+ else{ 
+ while(cur!=NULL && cur->prio>tmp->prio){ 
+ prev=cur; 
+ cur=cur->nxtptr; 
+ }; 
+ prev->nxtptr=tmp; 
+ tmp->nxtptr=cur; 
+ }; 
+ }; 
+ }; 
+ cout<<"\n\n-----------Task Queue------------"<<endl; 
+ cur=first; 
+ while(cur!=NULL){ 
+ cur->show(); 
+ cur=cur->nxtptr; 
+ }; 
+ }; 
