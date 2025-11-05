@@ -1,0 +1,170 @@
+1] /*Parenthesis Checker: Write a program using a  stack  for push, pop, peek, and isEmpty operations. Write isBalanced() Function that Iterates through the input expression, Pushes opening brackets onto the stack. For closing brackets, it checks the top of the stack for a matching opening bracket. Ensures that all opening brackets are matched by the end of the traversal. Main Function: Accepts a string expression from the user. Uses isBalanced() to determine if the parentheses in the expression are balanced.*/
+ #include <iostream>
+#include <string>
+using namespace std;
+class Stack {
+protected:
+	string stck;
+	int top = -1;
+public:
+	bool isEmpty();
+	void Push(char);
+	char Pop();
+	char Peek() { return stck[top]; };
+	bool isBalanced(string arr);
+};
+bool Stack::isEmpty() {
+	if (top == -1) {
+    	return 1;
+	}
+	else {
+    	return 0;
+	};
+};
+void Stack::Push(char x) {
+	stck[++top] = x;
+};
+char Stack::Pop() {
+	if (!isEmpty()) { return stck[top--]; };
+	return 0;
+};
+bool Stack::isBalanced(string arr) {
+	int i = 0;
+	while (arr[i] != '\0') {
+    	if (arr[i] == '[' || arr[i] == '{' || arr[i] == '(') {
+        	Push(arr[i]);
+    	}
+    	else if (arr[i] == '[' || arr[i] == '{' || arr[i] == '(') {
+        	if (isEmpty()) { return 0; }
+    	}
+    	else if ((arr[i] == '}' && Peek() == '{') || (arr[i] == ')' && Peek() == '(') || (arr[i] == ']' && Peek() == '[')) {
+        	Pop();
+    	};
+    	i++;
+	};
+	return this->isEmpty();
+};
+int main() {
+	Stack ch;
+	string a;
+	cout << "Enter String: ";
+	cin >> a;
+	if (ch.isBalanced(a)) {
+    	cout << "Entered String is Well Parenthesised";
+	}
+	else {
+    	cout << "Entered String is Not Well Parenthesised";
+	};
+	return 0;
+}
+OUTPUT : 
+Enter String: [(]){(})
+Entered String is Not Well Parenthesised
+Enter String: {[()]}
+Entered String is Well Parenthesised
+
+
+2] /*Syntax Parsing in Programming Languages: Parsing expressions is a key step in many compilers and language processors. When a language's syntax requires parsing mathematical or logical expressions, converting between infix and postfix notation ensures that expressions are evaluated correctly. Accept an infix expression and show the expression in postfix form.*/
+#include <iostream>
+#include <cstring>
+#include <string>
+#define N 10
+using namespace std;
+class stack
+{
+	public:
+ char arr[10];
+ string ex;
+ int top;
+	stack()
+	{
+    	top=-1;
+	}
+	void push(char c)
+	{
+    	if(top==(N-1))
+    	{cout<<"stack overflow";}
+    	else{top+=1;
+    	arr[top]=c;}
+	}
+	char pop()
+	{   char c= ' ';
+    	if(top==-1)
+    	{//cout<<"Stack underflow";
+    	}
+    	else
+    	{
+        	c=arr[top];
+        	top --;
+    	}
+    	return c;
+	}
+	int precedence(char opr){
+    	if (opr=='*' || opr=='/')
+        	return 2;
+    	if (opr=='+' || opr=='-')
+        	return 1;
+	if(opr=='(')  return 0;
+	}
+	char associativity(char opr){
+    	if (opr=='*' || opr=='/'||opr=='+' || opr=='-')
+        	return 'L';
+    	else
+        	return 'R';
+	}
+	char peek(){return arr[top]; }
+	string InfixToPostfixConversion(string ex);
+};
+ 
+string stack::InfixToPostfixConversion(string ex){
+	int l=ex.length();
+	int i=0,j=0;
+	char op_exp[20];
+	char ch,ch1;
+	while(i<l){
+    	//cout<<ex[i]; 
+    	if(ex[i]=='+' ||ex[i]=='-'||ex[i]=='*' || ex[i]=='/'){
+     	
+        	if(top==-1) push(ex[i]);
+        	else{
+            	ch=peek();
+            	//if(ch== ' ')
+                while(precedence(ex[i])<=precedence(ch)){
+            	ch1=pop();
+            	op_exp[j++]=ch1;
+            	ch=peek();
+            	}
+            	push(ex[i]);
+        	}
+    	}
+    	else if(ex[i]=='(')
+        	push(ex[i]);
+    	else if(ex[i]==')'){
+        	ch1=pop();
+        	while(ch1!='('){
+            	op_exp[j++]=ch1;
+            	ch1=pop();
+        	}}
+    	else  {
+        	op_exp[j++]=ex[i];
+    	// var++}
+    	i++;}
+	do{ ch=pop();
+    	op_exp[j++]=ch;
+	}while(ch!=' ');
+	op_exp[j]='\0';
+	return op_exp;
+	}
+ int main() { 
+  stack s;
+  string ex;
+  cout<<"\n Enter an expression:";
+  cin>>ex;
+  string op_exp=s.InfixToPostfixConversion(ex);
+  cout<<"\n Postfix Expression is: "<<op_exp;
+  return 0;}
+Output:
+ Enter an expression:a+b*c/d
+ Postfix Expression is: abc*d/+
+ Enter an expression:a+b*(c-d-e)*(f+g*h)-i
+ Postfix Expression is: abcd-e-*fgh*+*+i-
