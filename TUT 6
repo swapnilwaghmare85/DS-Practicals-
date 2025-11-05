@@ -1,0 +1,223 @@
+
+1] /*Coffee Shop Line (Simple Queue): Arrival: Customers arrive at the coffee shop and stand in line. Order Processing: The first customer in line gets their order taken, and the barista starts making the coffee.Serving: Once the first customer is served, they leave the queue, and the next customer in line moves forward to be served. Write a program to implement a simple queue*/
+#include<iostream>
+using namespace std;
+class coffee{
+int queue[5];
+int rear=-1;
+int front=-1;
+int token=0;
+public:
+bool isEmpty(){
+return (front==-1 || front>rear);
+}
+bool isFull(){
+if(rear==4){
+cout<<"Queue is full. Please wait."<<endl;
+return 1;
+}
+return 0;
+}
+void enqueue(){
+if(!isFull()){
+if(front==-1){
+front=0;
+}
+token++;
+rear++;
+queue[rear]=token;
+cout<<"Token no. "<<queue[rear]<<" registered."<<endl;
+}
+}
+int dequeue(){
+if(isEmpty()){
+cout<<"No orders to process!!"<<endl;
+return -1;
+}
+if(!isEmpty()){
+int order=queue[front];
+front++;
+return order;
+}
+}
+};
+int main(){
+coffee c;
+int choice;
+cout<<"---COFFEE SHOP---"<<endl;
+cout<<"1. Issue Token \n2. Process Order \n3. Exit"<<endl;
+while(1){
+cout<<"Enter your choice: ";
+cin>>choice;
+if(choice==1){
+c.enqueue();
+}
+else if(choice==2){
+int processed = c.dequeue();
+if(processed!=-1){
+cout<<"Order no. "<<processed<<" processed"<<endl;
+}
+}
+else if(choice==3){
+cout<<"Exiting the Coffee Shop...";
+break;
+}
+else{
+cout<<"Invalid choice."<<endl;
+break;
+}
+}
+return 0;
+} 
+OUTPUT : 
+---COFFEE SHOP---
+1. Issue Token
+2. Process Order
+3. Exit
+Enter your choice: 1
+Token no. 1 registered.
+Enter your choice: 1
+Token no. 2 registered.
+Enter your choice: 1
+Token no. 3 registered.
+Enter your choice: 1
+Token no. 4 registered.
+Enter your choice: 1
+Token no. 5 registered.
+Enter your choice: 1
+Queue is full. Please wait.
+Enter your choice: 2
+Order no. 1 processed
+Enter your choice: 2
+Order no. 2 processed
+Enter your choice: 2
+Order no. 3 processed
+Enter your choice: 2
+Order no. 4 processed
+Enter your choice: 2
+Order no. 5 processed
+Enter your choice: 2
+No orders to process!!
+Enter your choice: 1
+Queue is full. Please wait.
+Enter your choice: 2
+No orders to process!!
+Enter your choice: 3
+Exiting the Coffee Shop... 
+
+
+2] /*In a multi-user environment, printers often use a circular queue to manage print jobs. Each print job is added to the queue, and the printer processes them in the order they arrive. Once a print job is completed, it moves out of the queue, and the next job is processed, efficiently managing the flow of print tasks. Implement the Printer Spooler system using a circular queue without using built-in queues.*/
+#include <iostream>
+using namespace std;
+class Printer {
+private:
+int rear = -1, front = 0, limit = 10, total = 0;
+string jobs[10];
+public:
+void enqueue(string name);
+void dequeue();
+bool isEmpty();
+bool isFull();
+};
+void Printer::dequeue() {
+if (isEmpty()) {
+cout << "No Prints Present\n";
+return;
+}
+else if (!isEmpty()) {
+cout << "Print of " << jobs[front] << " is Ready to Collect\n";
+jobs[front] = "";
+front = (front + 1) % limit;
+total--;
+};
+};
+void Printer::enqueue(string name) {
+if (!isFull()) {
+rear = (rear + 1) % limit;
+jobs[rear] = name;
+total++;
+cout << "Print Added to Queue\n";
+};
+};
+bool Printer::isFull() {
+if (total == limit) {
+cout << "Queue is full, please process tokens first\n";
+return 1;
+}
+else {
+return 0;
+};
+};
+bool Printer::isEmpty() {
+if (total == 0) {
+cout << "Queue is empty, please issue token first\n";
+return 1;
+}else {
+return 0;
+};};
+int main() {
+Printer press;
+int choice = 0;
+string filename;
+while (choice != 3) {
+cout << "--------------Welcome to Printing Press--------------" << endl;
+cout << "1) Issue Print\n";
+cout << "2) Process Print\n";
+cout << "3) Exit\n";
+cout << "Enter Choice Number: ";
+cin >> choice;
+if (choice == 0) {
+cout << "Please Enter Choice Correctly";
+break;}
+else if (choice == 1) {
+cout << "Enter Print Name: ";
+cin >> filename;
+press.enqueue(filename);}
+else if (choice == 2) {
+press.dequeue();
+};};
+cout << "Goodbye, Come Again!!!!!!!\n";
+return 0;} 
+
+Output:
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 1
+Enter Print Name: DS_Assignment-6
+Print Added to Queue
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 1
+Enter Print Name: OOP_Assignment-7
+Print Added to Queue
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 2
+Print of DS_Assignment-6 is Ready to Collect
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 2
+Print of OOP_Assignment-7 is Ready to Collect
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 2
+Queue is empty, please issue token first
+No Prints Present
+--------------Welcome to Printing Press--------------
+1) Issue Print
+2) Process Print
+3) Exit
+Enter Choice Number: 3
+Goodbye, Come Again!!!!!!! 
+
+
