@@ -1,0 +1,178 @@
+ASSIGNMENT-7
+
+/*1] Depth First Search (DFS):
+Application: Web crawlers use DFS to explore web pages systematically, following links and indexing content for search engines. Write a simple program to index web pages using Depth First Search (DFS). The program should simulate a web graph where pages are represented as nodes and hyperlinks as edges.*/ 
+#include <iostream>
+using namespace std;
+
+void depthFirst(int node, int n, bool seen[], int** edges) {
+    seen[node] = true;
+    cout << "Crawling webpage " << node + 1 << endl;
+    for (int k = 0; k < n; k++) {
+        if (edges[node][k] == 1 && !seen[k]) {
+            depthFirst(k, n, seen, edges);
+        }
+    }
+}
+
+int main() {
+    int pages;
+    cout << "Enter total webpages: ";
+    cin >> pages;
+
+    bool* seen = new bool[pages];
+    int** edges = new int*[pages];
+
+    for (int a = 0; a < pages; a++) {
+        edges[a] = new int[pages];
+    }
+
+    for (int a = 0; a < pages; a++) {
+        for (int b = 0; b < pages; b++) {
+            edges[a][b] = 0;
+        }
+    }
+
+    for (int a = 0; a < pages; a++) {
+        for (int b = a + 1; b < pages; b++) {
+            int link = 0;
+            cout << "Link between page " << a + 1 << " and " << b + 1 << "? (1/0): ";
+            cin >> link;
+            if (link == 1) {
+                edges[a][b] = 1;
+                edges[b][a] = 1;
+            }
+        }
+        cout << endl;
+    }
+
+    cout << "\nConnection Matrix:\n";
+    for (int a = 0; a < pages; a++) {
+        for (int b = 0; b < pages; b++) {
+            cout << edges[a][b] << " ";
+        }
+        cout << endl;
+    }
+
+    for (int a = 0; a < pages; a++) {
+        seen[a] = false;
+    }
+
+    cout << "\nInitiating DFS from webpage 1...\n";
+    depthFirst(0, pages, seen, edges);
+    cout << "\nTraversal finished.\n";
+
+    return 0;
+}
+
+OUTPUT 
+Enter total webpages: 4
+
+Link between page 1 and 2? (1/0): 1
+Link between page 1 and 3? (1/0): 0
+Link between page 1 and 4? (1/0): 1
+
+Link between page 2 and 3? (1/0): 1
+Link between page 2 and 4? (1/0): 0
+
+Link between page 3 and 4? (1/0): 0
+
+
+Connection Matrix:
+0 1 0 1
+1 0 1 0
+0 1 0 0
+1 0 0 0
+
+Initiating DFS from webpage 1...
+Crawling webpage 1
+Crawling webpage 2
+Crawling webpage 3
+Crawling webpage 4
+
+Traversal finished.
+
+/* 2] b. Breadth First Search (BFS):
+Application:Indexing web pages for search engines.
+Example: A web crawler uses BFS to visit web pages systematically, starting from a seed URL and exploring links level by level. Nodes represent web pages. Edges represent hyperlinks. BFS ensures that pages at the same "depth" (distance from the starting page) are visited before moving to deeper levels. Write a program to simulate the indexing of web pages for a search engine using a Breadth-First Search (BFS) algorithm. */
+#include <iostream>
+using namespace std;
+void BFS(int start, int total, bool visited[], int** links) {
+int queue[50];
+int front = 0, rear = 0;
+visited[start] = true;
+queue[rear++] = start;
+while (front < rear) {
+int current = queue[front++];
+cout << "Visited Webpage: " << current + 1 << endl;
+for (int i = 0; i < total; i++) {
+if (links[current][i] == 1 && !visited[i]) {
+visited[i] = true;
+queue[rear++] = i;
+}
+}
+}
+}
+int main() {
+int totalPages;
+cout << "Enter Number of Web pages: ";
+cin >> totalPages;
+bool* visited = new bool[totalPages];
+int** links = new int*[totalPages];
+for (int i = 0; i < totalPages; i++) {
+links[i] = new int[totalPages];
+}
+for (int i = 0; i < totalPages; i++) {
+for (int j = 0; j < totalPages; j++) {
+links[i][j] = 0;
+}
+}
+for (int i = 0; i < totalPages; i++) {
+visited[i] = false;
+}
+for (int i = 0; i < totalPages; i++) {
+for (int j = i + 1; j < totalPages; j++) {
+int connected = 0;
+cout << "Is there a hyperlink between webpage " << i + 1
+<< " and " << j + 1 << "? (1 = Yes, 0 = No): ";
+cin >> connected;
+if (connected == 1) {
+links[i][j] = connected;
+links[j][i] = connected;
+}
+}
+cout << endl;
+}
+cout << "\nAdjacency Matrix (Connection Map):\n";
+for (int i = 0; i < totalPages; i++) {
+for (int j = 0; j < totalPages; j++) {
+cout << links[i][j] << " "; }
+cout << endl; }
+cout << "\nStarting BFS traversal from webpage 1...\n";
+BFS(0, totalPages, visited, links);
+cout << "\nBFS traversal complete.\n";
+return 0;
+}
+Output:
+Enter Number of Web pages: 4
+Is there a hyperlink between webpage 1 and 2? (1 = Yes, 0 = No): 1
+Is there a hyperlink between webpage 1 and 3? (1 = Yes, 0 = No): 1
+Is there a hyperlink between webpage 1 and 4? (1 = Yes, 0 = No): 0
+Is there a hyperlink between webpage 2 and 3? (1 = Yes, 0 = No): 1
+Is there a hyperlink between webpage 2 and 4? (1 = Yes, 0 = No): 0
+Is there a hyperlink between webpage 3 and 4? (1 = Yes, 0 = No): 1
+Adjacency Matrix (Connection Map):
+0 1 1 0
+1 0 1 0
+1 1 0 1
+0 0 1 0
+Starting BFS traversal from webpage 1...
+Visited Webpage: 1
+Visited Webpage: 2
+Visited Webpage: 3
+Visited Webpage: 4
+BFS traversal complete. 
+
+
+
+
